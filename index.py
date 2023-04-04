@@ -101,9 +101,9 @@ class Web_Controller:
     
 class ExcelConvert:
 
-    def export(result):
+    def export(result,file):
         df = pd.DataFrame(result[1:], columns=result[0])
-        df.to_excel('archivo_excel.xlsx', index=False)
+        df.to_excel(file, index=False)
 
 class Navegacion:
 
@@ -143,6 +143,7 @@ class Navegacion:
 
     def getFacturas(self):
         self.facturas = []
+        self.facturaExcel=[["factura", "fecha", "vencimiento", "total"]]
         table = True
         group = 1
         conteo = 1
@@ -172,7 +173,9 @@ class Navegacion:
                     except:
                         dataTable = False
                 item = {'factura':factura, 'fecha':fecha, 'vencimiento':vencimiento, 'total':total, 'renglones':renglones}
+                item2 = [factura, fecha, vencimiento, total]
                 self.facturas.append(item)
+                self.facturaExcel.append(item2)
                 group +=3
                 self.label.config(text=conteo)
                 self.root.update()
@@ -291,7 +294,8 @@ class App:
         fechaIni = self.entry_fecha_inicial.get()
         fechaFin = self.entry_fecha_final.get()
         navegacion = Navegacion(user,password,fechaIni,fechaFin, self.root, self.espacio1)
-        ExcelConvert.export(navegacion.result)
+        ExcelConvert.export(navegacion.result, 'archivo_excel.xlsx')
+        ExcelConvert.export(navegacion.facturaExcel, 'resumido_excel.xlsx')
         openFile()
 
 class openFile:
