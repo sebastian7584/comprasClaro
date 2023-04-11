@@ -177,7 +177,7 @@ class Navegacion:
                 self.facturas.append(item)
                 self.facturaExcel.append(item2)
                 group +=3
-                self.label.config(text=conteo)
+                self.label.config(text=f'factura {conteo}')
                 self.root.update()
                 conteo +=1
             
@@ -232,6 +232,8 @@ class Navegacion:
                     totalConIva= costoSinIva + iva
                     renglon = [str(serial).lstrip('0'),costoSinIva,str(codigo).lstrip('0'),producto,fecha,factura,tipo,vencimiento,iva,totalConIva]
                     self.result.append(renglon)
+                    self.label.config(text=f"fila {fila} en factura {i['factura']}")
+                    self.root.update()
                     fila +=1    
 
                 except Exception as e:
